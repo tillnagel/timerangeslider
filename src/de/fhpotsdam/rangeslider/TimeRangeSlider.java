@@ -305,6 +305,16 @@ public class TimeRangeSlider {
 
 	// --------------------------------------------------------------
 
+	/**
+	 * Sets the current time range. Does not check for validity in respect to overall time range! As the range is based
+	 * on the aggregationIntervalSeconds, this method sets the currentStartDateTime and the aggregationIntervalSeconds
+	 * (which results in a new currentEndDateTime).
+	 * 
+	 * @param newStartDateTime
+	 *            The start date time to set for the current time range
+	 * @param newEndDateTime
+	 *            The end date time to set for the current time range.
+	 */
 	public void setCurrentRange(DateTime newStartDateTime, DateTime newEndDateTime) {
 		currentStartDateTime = newStartDateTime.plus(0);
 		int newAggregationIntervalSeconds = Seconds.secondsBetween(newStartDateTime, newEndDateTime).getSeconds();
