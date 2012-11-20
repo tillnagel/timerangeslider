@@ -603,14 +603,14 @@ public class TimeRangeSlider {
 	}
 
 	/**
-	 * Sets animation speed.
+	 * Sets animation delay. The higher the value the slower, and the lower the value the faster the animation.
 	 * 
 	 * Not to be confused with animationIntervalSeconds! (Which sets the seconds for each animation step.)
 	 * 
 	 * @param framesPerInterval
 	 *            Specified how many frames to wait per animation interval.
 	 */
-	public void setAnimationSpeed(int framesPerInterval) {
+	public void setAnimationDelay(int framesPerInterval) {
 		this.framesPerInterval = framesPerInterval;
 	}
 
