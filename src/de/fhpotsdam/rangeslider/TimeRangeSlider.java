@@ -602,4 +602,16 @@ public class TimeRangeSlider {
 		return running;
 	}
 
+	/**
+	 * Sets animation speed.
+	 * 
+	 * Not to be confused with animationIntervalSeconds! (Which sets the seconds for each animation step.)
+	 * 
+	 * @param framesPerInterval
+	 *            Specified how many frames to wait per animation interval.
+	 */
+	public void setAnimationSpeed(int framesPerInterval) {
+		this.framesPerInterval = framesPerInterval;
+	}
+
 }
