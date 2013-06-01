@@ -106,7 +106,7 @@ public class StyledTimeRangeSlider extends TimeRangeSlider {
 
 	@Override
 	protected void drawTimeRangeLabels() {
-		String timeRangeLabel = currentStartDateTime.toString("HH:mm") + " - " + currentEndDateTime.toString("HH:mm");
+		String timeRangeLabel = currentStartDateTime.toString("HH:mm");// + " - " + currentEndDateTime.toString("HH:mm");
 
 		labelPadding = 20;
 		PFont font = FontManager.getInstance().getMiniLabelFont();

@@ -19,7 +19,7 @@ import de.fhpotsdam.utils.FontManager;
  * 
  * TODO tn, 28 Nov 2011: Copy and adapt JavaDoc from old TimeRangeUtils.
  * 
- * Copyright (c) 2012 Till Nagel, tillnagel.com
+ * Copyright (c) 2013 Till Nagel, tillnagel.com
  * 
  */
 public class TimeRangeSlider {
@@ -176,6 +176,10 @@ public class TimeRangeSlider {
 
 	public void setAnimationIntervalSeconds(int animationIntervalSeconds) {
 		this.animationIntervalSeconds = animationIntervalSeconds;
+	}
+
+	public void addAnimationIntervalSeconds(int diffAnimationIntervalSeconds) {
+		animationIntervalSeconds += diffAnimationIntervalSeconds;
 	}
 
 	/**
@@ -503,7 +507,7 @@ public class TimeRangeSlider {
 		currentStartX = x + widthPerSecond * currentStartSeconds;
 		currentEndX = x + widthPerSecond * currentEndSeconds;
 
-		if (draggedEndHandle && id.equals(endHandleId)) {
+		if (draggedEndHandle && id.equals(endHandleId) && !draggedStartHandle) {
 			float tx = PApplet.constrain(checkX, x, x + width);
 			tx = Math.round((tx - currentStartX) / widthPerTic) * widthPerTic;
 			int seconds = Math.round(tx / widthPerSecond);
