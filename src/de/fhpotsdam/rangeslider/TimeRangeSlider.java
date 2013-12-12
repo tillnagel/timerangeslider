@@ -181,15 +181,19 @@ public class TimeRangeSlider {
 	public void addAnimationIntervalSeconds(int diffAnimationIntervalSeconds) {
 		animationIntervalSeconds += diffAnimationIntervalSeconds;
 	}
-
+	
+	public void update() {
+		if ((p.frameCount % framesPerInterval == 0) && running) {
+			nextAnimationStep();
+		}
+	}
+	
 	/**
 	 * Draws this TimeRangeSlider.
 	 */
 	public void draw() {
-		if ((p.frameCount % framesPerInterval == 0) && running) {
-			nextAnimationStep();
-		}
-
+		update();
+		
 		drawTimeLine();
 		drawStartAndEndTics();
 
