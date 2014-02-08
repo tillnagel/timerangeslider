@@ -3,6 +3,7 @@ package de.fhpotsdam.rangeslider;
 import java.lang.reflect.Method;
 
 import org.joda.time.DateTime;
+import org.joda.time.Interval;
 import org.joda.time.Seconds;
 
 import processing.core.PApplet;
@@ -181,19 +182,19 @@ public class TimeRangeSlider {
 	public void addAnimationIntervalSeconds(int diffAnimationIntervalSeconds) {
 		animationIntervalSeconds += diffAnimationIntervalSeconds;
 	}
-	
+
 	public void update() {
 		if ((p.frameCount % framesPerInterval == 0) && running) {
 			nextAnimationStep();
 		}
 	}
-	
+
 	/**
 	 * Draws this TimeRangeSlider.
 	 */
 	public void draw() {
 		update();
-		
+
 		drawTimeLine();
 		drawStartAndEndTics();
 
@@ -570,16 +571,36 @@ public class TimeRangeSlider {
 		}
 	}
 
+	/**
+	 * Gets the current start date time. Convenience for {@link #getCurrentStartDateTime()}.
+	 * 
+	 * @return The current start date time.
+	 */
 	public DateTime getCurrentDateTime() {
 		return currentStartDateTime;
 	}
 
+	/**
+	 * Gets the current start date time.
+	 * 
+	 * @return The current start date time.
+	 */
 	public DateTime getCurrentStartDateTime() {
 		return currentStartDateTime;
 	}
 
 	public DateTime getCurrentEndDateTime() {
 		return currentEndDateTime;
+	}
+
+	/**
+	 * Returns the current interval, i.e. the Interval between current start and end dateTimes. Is useful to check
+	 * whether a DateTime is between the current time range (with interval.contains).
+	 * 
+	 * @return The current interval.
+	 */
+	public Interval getCurrentInterval() {
+		return new Interval(getCurrentStartDateTime(), getCurrentEndDateTime());
 	}
 
 	public void setShowTicks(boolean showTicks) {
