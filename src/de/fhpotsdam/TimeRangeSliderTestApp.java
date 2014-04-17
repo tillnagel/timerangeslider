@@ -40,6 +40,19 @@ public class TimeRangeSliderTestApp extends PApplet {
 
 	public void keyPressed() {
 		timeRangeSlider.onKeyPressed(key, keyCode);
+		
+		if (key == 'a') {
+			// sets new start, keeps range
+			timeRangeSlider.setCurrentStartDateTime(new DateTime(2011, 04, 11, 11, 30, 0));
+		}
+		if (key == 'b') {
+			// set new end date, keeps range
+			timeRangeSlider.setCurrentEndDateTime(new DateTime(2011, 04, 11, 20, 0, 0));
+		}
+		if (key == 'c') {
+			// sets new start and end date, changes range
+			timeRangeSlider.setCurrentRange(new DateTime(2011, 04, 11, 12, 00, 0), new DateTime(2011, 04, 11, 17, 0, 0));
+		}
 	}
 
 	// Gets called each time the time ranger slider has changed, both by user interaction as well as by animation

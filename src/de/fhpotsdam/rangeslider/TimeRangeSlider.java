@@ -332,6 +332,31 @@ public class TimeRangeSlider {
 	}
 
 	/**
+	 * Sets the current start time. This shifts the time range, i.e. the length of the range does not change. Use
+	 * {@link #setCurrentRange(DateTime, DateTime)} to modify the range.
+	 * 
+	 * @param newStartDateTime
+	 *            The start date time to set for the current time range.
+	 */
+	public void setCurrentStartDateTime(DateTime newStartDateTime) {
+		currentStartDateTime = newStartDateTime.plus(0);
+		updateAnimationStep();
+	}
+
+	/**
+	 * Sets the current end time. This shifts the time range, i.e. the length of the range does not change. Use
+	 * {@link #setCurrentRange(DateTime, DateTime)} to modify the range.
+	 * 
+	 * @param newStartDateTime
+	 *            The start date time to set for the current time range.
+	 */
+	public void setCurrentEndDateTime(DateTime newEndDateTime) {
+		int diffSeconds = Seconds.secondsBetween(currentEndDateTime, newEndDateTime).getSeconds();
+		currentStartDateTime = currentStartDateTime.plusSeconds(diffSeconds);
+		updateAnimationStep();
+	}
+
+	/**
 	 * Goes to next animations step, i.e. slides the time by animationIntervalSeconds.
 	 */
 	public void nextAnimationStep() {
@@ -581,7 +606,7 @@ public class TimeRangeSlider {
 	}
 
 	/**
-	 * Gets the current start date time.
+	 * Gets the current start date time, i.e. beginning of current time range.
 	 * 
 	 * @return The current start date time.
 	 */
@@ -589,8 +614,31 @@ public class TimeRangeSlider {
 		return currentStartDateTime;
 	}
 
+	/**
+	 * Gets the current end date time, i.e. end of current time range.
+	 * 
+	 * @return The current end date time.
+	 */
 	public DateTime getCurrentEndDateTime() {
 		return currentEndDateTime;
+	}
+
+	/**
+	 * Gets the overall start date time, i.e. beginning of whole time line.
+	 * 
+	 * @return The overall start date time.
+	 */
+	public DateTime getStartDateTime() {
+		return startDateTime;
+	}
+
+	/**
+	 * Gets the overall end date time, i.e. end of whole time line.
+	 * 
+	 * @return The overall end date time.
+	 */
+	public DateTime getEndDateTime() {
+		return endDateTime;
 	}
 
 	/**
