@@ -20,7 +20,7 @@ import de.fhpotsdam.utils.FontManager;
  * 
  * TODO tn, 28 Nov 2011: Copy and adapt JavaDoc from old TimeRangeUtils.
  * 
- * Copyright (c) 2013 Till Nagel, tillnagel.com
+ * Copyright (c) 2015 Till Nagel, tillnagel.com
  * 
  */
 public class TimeRangeSlider {
@@ -72,6 +72,7 @@ public class TimeRangeSlider {
 	protected boolean showStartEndTimeLabels = true;
 	/** Shows labels for selected time range. */
 	protected boolean showTimeRangeLabels = true;
+	protected String timeLabelFormat = "HH:mm";
 	protected float labelPadding = 6;
 	protected boolean showSelectedTimeRange = true;
 
@@ -255,13 +256,22 @@ public class TimeRangeSlider {
 	}
 
 	protected void drawTimeRangeLabels() {
-		String timeRangeLabel = currentStartDateTime.toString("HH:mm") + " - " + currentEndDateTime.toString("HH:mm");
+		String timeRangeLabel = getTimeRangeLabel();
 		PFont font = FontManager.getInstance().getLabelFont();
 		p.textFont(font);
 		int labelX = (int) (currentStartX + (currentEndX - currentStartX) / 2 - p.textWidth(timeRangeLabel) / 2);
 		int labelY = (int) (y + font.getSize() + labelPadding / 2);
 		drawLabel(timeRangeLabel, labelX, labelY);
 	}
+	
+	protected String getTimeRangeLabel() {
+		return currentStartDateTime.toString(timeLabelFormat) + " - " + currentEndDateTime.toString(timeLabelFormat);
+	}
+
+	public void setTimeLabelFormatString(String timeLabelFormat) {
+		this.timeLabelFormat = timeLabelFormat;
+	}
+
 
 	protected void drawLabel(String timeRangeLabels, int labelX, int labelY) {
 		p.fill(66);
