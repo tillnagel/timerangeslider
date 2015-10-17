@@ -466,6 +466,10 @@ public class TimeRangeSlider {
 
 	// Interactions -------------------------------------------------
 
+	public void onClicked(int checkX, int checkY) {
+		onMoved(checkX, checkY);
+	}
+	
 	public void onMoved(int checkX, int checkY) {
 		inProximity = checkX > x - inProximityPadding && checkX < x + width + inProximityPadding
 				&& checkY > y - height / 2 - inProximityPadding && checkY < y + height / 2 + inProximityPadding;
@@ -518,6 +522,10 @@ public class TimeRangeSlider {
 		}
 	}
 
+	public void onReleased(int checkX, int checkY) {
+		onReleased(checkX, checkY, MOUSE_ID);
+	}
+	
 	public void onReleased(int checkX, int checkY, String id) {
 		if (id.equals(startHandleId)) {
 			draggedStartHandle = false;
