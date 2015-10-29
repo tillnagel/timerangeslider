@@ -49,9 +49,9 @@ public class TimeRangeSlider {
 	protected DateTime currentEndDateTime;
 
 	// Overall time range in seconds
-	private int totalSeconds;
+	protected int totalSeconds;
 	// Time range between ticks
-	private float widthPerSecond;
+	protected float widthPerSecond;
 
 	// Current x position of the range start
 	protected float currentStartX;
@@ -86,13 +86,13 @@ public class TimeRangeSlider {
 	// Handles ----------------------------------
 
 	protected boolean centeredHandle = true;
-	private boolean draggedSelectedTimeRange = false;
-	private boolean draggedStartHandle = false;
-	private boolean draggedEndHandle = false;
+	protected boolean draggedSelectedTimeRange = false;
+	protected boolean draggedStartHandle = false;
+	protected boolean draggedEndHandle = false;
 	protected float startHandleX;
 	protected float endHandleX;
 	protected float handleWidth;
-	private float handleHeight;
+	protected float handleHeight;
 
 	protected boolean inProximity = false;
 	protected float inProximityPadding = 25;
@@ -107,12 +107,15 @@ public class TimeRangeSlider {
 	private String startHandleId = null;
 	private String endHandleId = null;
 	private String timeRangeHandleId = null;
-	private static final String MOUSE_ID = "mouse";
+	protected static final String MOUSE_ID = "mouse";
 
 	// Event ------------------------------------
 	private Method timeUpdatedMethod;
 
 	// ------------------------------------------
+	
+	boolean isSingleSlider = false;
+
 
 	/**
 	 * Creates a TimeRangeSlider.
@@ -431,7 +434,10 @@ public class TimeRangeSlider {
 
 	protected void updateAnimationStep() {
 		currentEndDateTime = currentStartDateTime.plusSeconds(aggregationIntervalSeconds);
-
+		fireAnimationStepListeners();
+	}
+	
+	protected void fireAnimationStepListeners() {
 		// Two event mechanisms: Listener or Reflection
 		if (listener != null) {
 			// Call implemented method of listener
@@ -449,7 +455,6 @@ public class TimeRangeSlider {
 				timeUpdatedMethod = null;
 			}
 		}
-
 	}
 
 	public void playOrPause() {
@@ -548,7 +553,6 @@ public class TimeRangeSlider {
 	public void onDragged(float checkX, float checkY, float oldX, float oldY, String id) {
 
 		float widthPerTic = widthPerSecond * tickIntervalSeconds;
-		// float widthPerTic = widthPerSecond * aggregationIntervalSeconds;
 
 		int currentStartSeconds = Seconds.secondsBetween(startDateTime, currentStartDateTime).getSeconds();
 		int currentEndSeconds = Seconds.secondsBetween(startDateTime, currentEndDateTime).getSeconds();
@@ -561,7 +565,6 @@ public class TimeRangeSlider {
 			int seconds = Math.round(tx / widthPerSecond);
 			// Update if larger than first tick, and different to prev value
 			if (seconds >= tickIntervalSeconds && seconds != aggregationIntervalSeconds) {
-				// if (seconds >= aggregationIntervalSeconds && seconds != aggregationIntervalSeconds) {
 				aggregationIntervalSeconds = seconds;
 				updateAnimationStep();
 			}
@@ -572,9 +575,12 @@ public class TimeRangeSlider {
 			tx = Math.round((currentEndX - tx) / widthPerTic) * widthPerTic;
 			int seconds = Math.round(tx / widthPerSecond);
 			if (seconds >= tickIntervalSeconds && seconds != aggregationIntervalSeconds) {
-				// if (seconds >= aggregationIntervalSeconds && seconds != aggregationIntervalSeconds) {
 				aggregationIntervalSeconds = seconds;
-				currentStartDateTime = currentEndDateTime.minusSeconds(aggregationIntervalSeconds);
+				if (isSingleSlider && currentStartDateTime.isEqual(currentEndDateTime.minusSeconds(aggregationIntervalSeconds))) {
+					currentStartDateTime = currentEndDateTime.plus(0);
+				} else {
+					currentStartDateTime = currentEndDateTime.minusSeconds(aggregationIntervalSeconds);
+				}
 				updateAnimationStep();
 			}
 		}
